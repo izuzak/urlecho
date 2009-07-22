@@ -1,0 +1,8 @@
+application: urlecho
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: (.*)
+  script: urlecho.py
