@@ -569,8 +569,8 @@
         
         var outputUrlText = outputUrl.length > 60 ? outputUrl.substring(0,57) + "..." : outputUrl;
         var testingUrlText = outputTestingUrl.length > 60 ? outputTestingUrl.substring(0,57) + "..." : outputTestingUrl;
-        document.getElementById("navigateToURL").innerHTML = "Click the following link to navigate the generated URL:<br><a href=\"" + outputUrl + "\" >" + outputUrlText + "</a>";
-        document.getElementById("testingURL").innerHTML = "Click the following link to see the complete HTTP response:<br><a href=\"" + outputTestingUrl + "\" >" + testingUrlText + "</a>";
+        document.getElementById("navigateToURL").innerHTML = "Click the following link to navigate the generated URL:<br><a rel=\"nofollow\" href=\"" + outputUrl + "\" >" + outputUrlText + "</a>";
+        document.getElementById("testingURL").innerHTML = "Click the following link to see the complete HTTP response:<br><a rel=\"nofollow\" href=\"" + outputTestingUrl + "\" >" + testingUrlText + "</a>";
       }
     </script>
     
