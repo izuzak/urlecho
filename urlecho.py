@@ -19,7 +19,7 @@ class BaseURLEchoHandler(webapp.RequestHandler):
     paramIndexes = sorted(filter(lambda x: x[1]!=-1, paramIndexes),key=lambda x:x[1])
     paramIndexes = [(paramIndexes[i][0], paramIndexes[i][1] + len(paramIndexes[i][0]) + 2, len(requestQueryString) if (i == (len(paramIndexes)-1)) else paramIndexes[i+1][1])
                     for i in range(len(paramIndexes))]
-    return dict((param[0], requestQueryString[param[1]:param[2]]) for param in paramIndexes)
+    return dict((param[0], urllib.unquote(requestQueryString[param[1]:param[2]])) for param in paramIndexes)
     
   def get(self):
     responseParams, isDebugMode = self.parseResponseParams(self.request.query_string)
@@ -32,13 +32,13 @@ class BaseURLEchoHandler(webapp.RequestHandler):
         debugHeaders.update(responseParams['headers'])
       self.response.headers['Content-Type'] = 'text'
       self.response.out.write("Request received:\n%s\n\n" % self.request.url)
-      self.response.out.write("Status code:\n%s\n\n" % (responseParams['statusCode'] if responseParams.has_key('statusCode') else "200"))
+      self.response.out.write("Status code:\n%s\n\n" % (str(responseParams['status']) if responseParams.has_key('status') else "200"))
       self.response.out.write("Headers:\n%s\n\n" % "\n".join( item[0] + ": " + item[1] for item in debugHeaders.items()))
       self.response.out.write("Content:\n%s" % responseParams['content'])
     else:
       # process status
-      if responseParams.has_key('statusCode'):
-        self.response.set_status(responseParams['statusCode'])
+      if responseParams.has_key('status'):
+        self.response.set_status(responseParams['status'])
       
       # process headers
       if responseParams.has_key('headers'):
@@ -53,12 +53,11 @@ class BaseURLEchoHandler(webapp.RequestHandler):
 
 class JsonStringURLEchoHandler(BaseURLEchoHandler):
   def parseResponseParams(self, queryString):
-    requestParams = self.parseRequestQueryStringParams(queryString, ['jsonRequest', 'debugMode'])
+    requestParams = self.parseRequestQueryStringParams(queryString, ['jsonResponse', 'debugMode'])
     
-    requestBody = "{}"
-    if requestParams.has_key('jsonRequest'):
-      requestBody = urllib.unquote(requestParams['jsonRequest'])
-    responseParams = simplejson.loads(requestBody)
+    responseParams = {}
+    if requestParams.has_key('jsonResponse'):
+      responseParams = simplejson.loads(requestParams['jsonResponse'])
     
     isDebugMode = requestParams.has_key('debugMode') and requestParams['debugMode'] == "1"
     return responseParams, isDebugMode
@@ -81,7 +80,7 @@ class QueryStringHandler(BaseURLEchoHandler):
     
     # parse status
     if requestParams.has_key('status'):
-      responseParams['statusCode'] = int(requestParams['status'])
+      responseParams['status'] = int(requestParams['status'])
     
     # parse headers
     if requestParams.has_key('headers'):
@@ -90,7 +89,7 @@ class QueryStringHandler(BaseURLEchoHandler):
     
     # process content
     if requestParams.has_key('content'):
-      responseParams['content'] = urllib.unquote(requestParams['content'])
+      responseParams['content'] = requestParams['content']
     
     isDebugMode = requestParams.has_key('debugMode') and requestParams['debugMode'] == "1"
     return responseParams, isDebugMode
@@ -100,8 +99,8 @@ class RedirectToGoogleCodeHandler(webapp.RequestHandler):
     self.redirect('http://code.google.com/p/urlecho')
     
 application = webapp.WSGIApplication([('/generateUrlGadget.*', URLGadgetHandler),
-                                      ('/generateJson.*', JsonStringURLEchoHandler),
-                                      ('/generate.*', QueryStringHandler),
+                                      ('/echoqueryparams.*', QueryStringHandler),
+                                      ('/echo.*', JsonStringURLEchoHandler),
                                       ('/.*', RedirectToGoogleCodeHandler),], debug=True)
 
 def main():
