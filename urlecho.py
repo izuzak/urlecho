@@ -52,7 +52,7 @@ class BaseURLEchoHandler(webapp.RequestHandler):
     responseParams, isDebugMode = self.parseResponseParams(self.request.query_string)
 	
     # cache all results if not requested otherwise
-    if not responseParams.has_key('Cache-control'):
+    if not responseParams.has_key('Cache-Control'):
       self.response.headers['Cache-Control'] = 'max-age=3600'
     
     # process debug mode
@@ -128,11 +128,11 @@ class QueryStringHandler(BaseURLEchoHandler):
 class RedirectToGoogleCodeHandler(webapp.RequestHandler):
   def get(self):
     self.redirect('http://code.google.com/p/urlecho')
-    
+
 application = webapp.WSGIApplication([('/generateUrlGadget.*', URLGadgetHandler),
                                       ('/echoqueryparams.*', QueryStringHandler),
                                       ('/echo.*', JsonStringURLEchoHandler),
-                                      ('/.*', RedirectToGoogleCodeHandler),], debug=True)
+                                      ('/.*', RedirectToGoogleCodeHandler)], debug=True)
 
 def main():
   run_wsgi_app(application)
