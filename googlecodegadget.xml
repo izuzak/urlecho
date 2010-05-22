@@ -561,8 +561,11 @@
         };
         
         var urlEncodedJson =  encodeURIComponent(JSON.stringify(jsonResponse));
+		
+		var subdomain = document.getElementById("subdomain").value;
+		subdomain = subdomain !== "" ? subdomain + "." : "";
         
-        var outputUrl = "http://urlecho.appspot.com/echo?jsonResponse=" + urlEncodedJson;
+        var outputUrl = "http://" + subdomain + "urlecho.appspot.com/echo?jsonResponse=" + urlEncodedJson;
         var outputTestingUrl = outputUrl + "&debugMode=1";
         
         document.getElementById("outputUrl").value = outputUrl;
@@ -583,6 +586,9 @@
     
     </p><p><label for="responseBody"><b>Response body</b>:</label></p><p>
     <textarea id="responseBody" name="responseBody" style="width:300px" rows="10" cols="20">Hello world!</textarea>
+	
+	</p><p><label for="subdomain"><b>Request URL subdomain (optional):(</b>:</label></p><p>
+	<input style="width:300px; font-family:monospace" name="subdomain" id="subdomain" type="text" value=""/>
     
     </p><p><button style="width:300px" name="genBtn" id="genBtn" onclick="generate();">Generate URL</button>
     
