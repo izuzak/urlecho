@@ -530,7 +530,6 @@
 
     .numberentry { text-align: right; }
     </style>
-    <script url="http://www.json.org/json2.js"></script>
     <script type="text/javascript">
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
       document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -587,7 +586,7 @@
     </p><p><label for="responseBody"><b>Response body</b>:</label></p><p>
     <textarea id="responseBody" name="responseBody" style="width:300px" rows="10" cols="20">Hello world!</textarea>
 	
-	</p><p><label for="subdomain"><b>Request URL subdomain (optional):(</b>:</label></p><p>
+	</p><p><label for="subdomain"><b>Request URL subdomain (optional)</b>:</label></p><p>
 	<input style="width:300px; font-family:monospace" name="subdomain" id="subdomain" type="text" value=""/>
     
     </p><p><button style="width:300px" name="genBtn" id="genBtn" onclick="generate();">Generate URL</button>

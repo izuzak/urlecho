@@ -20,9 +20,40 @@ class BaseURLEchoHandler(webapp.RequestHandler):
     paramIndexes = [(paramIndexes[i][0], paramIndexes[i][1] + len(paramIndexes[i][0]) + 2, len(requestQueryString) if (i == (len(paramIndexes)-1)) else paramIndexes[i+1][1])
                     for i in range(len(paramIndexes))]
     return dict((param[0], urllib.unquote(requestQueryString[param[1]:param[2]])) for param in paramIndexes)
-    
+	
+  def options(self):
+    self.response.set_status(200)
+    self.response.headers["Access-Control-Allow-Origin"] = "*"
+    self.response.headers["Access-Control-Max-Age"] = 3600
+    self.response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE, HEAD"
+    return
+  
   def get(self):
+    self.processRequest()
+    return
+  
+  def put(self):
+    self.processRequest()
+    return
+  
+  def post(self):
+    self.processRequest()
+    return
+  
+  def delete(self):
+    self.processRequest()
+    return
+  
+  def head(self):
+    self.processRequest()
+    return
+  
+  def processRequest(self):
     responseParams, isDebugMode = self.parseResponseParams(self.request.query_string)
+	
+    # cache all results if not requested otherwise
+    if not responseParams.has_key('Cache-control'):
+      self.response.headers['Cache-Control'] = 'max-age=3600'
     
     # process debug mode
     if isDebugMode:
