@@ -534,6 +534,7 @@
       var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
       document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
     </script>
+    <script type="text/javascript" src="http://urlecho.googlecode.com/svn/trunk/urlecho.js"></script>
     <script type="text/javascript">
       String.prototype.trim = function () {
         return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
@@ -553,18 +554,14 @@
         
         var responseBody = document.getElementById("responseBody").value;
         
-        var jsonResponse = {
+        var params = {
           "status" : parseInt(responseStatus),
           "headers" : responseHeadersObject,
-          "content" : responseBody
+          "content" : responseBody,
+          "subdomain" : document.getElementById("subdomain").value
         };
         
-        var urlEncodedJson =  encodeURIComponent(JSON.stringify(jsonResponse));
-		
-		var subdomain = document.getElementById("subdomain").value;
-		subdomain = subdomain !== "" ? subdomain + "." : "";
-        
-        var outputUrl = "http://" + subdomain + "urlecho.appspot.com/echo?jsonResponse=" + urlEncodedJson;
+        var outputUrl = urlecho.getEchoURL(params);
         var outputTestingUrl = outputUrl + "&debugMode=1";
         
         document.getElementById("outputUrl").value = outputUrl;

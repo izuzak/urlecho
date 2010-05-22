@@ -22,10 +22,13 @@ class BaseURLEchoHandler(webapp.RequestHandler):
     return dict((param[0], urllib.unquote(requestQueryString[param[1]:param[2]])) for param in paramIndexes)
 	
   def options(self):
-    self.response.set_status(200)
-    self.response.headers["Access-Control-Allow-Origin"] = "*"
-    self.response.headers["Access-Control-Max-Age"] = 3600
-    self.response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE, HEAD"
+    if self.request.headers.has_key('Access-Control-Request-Method'):
+      self.response.set_status(200)
+      self.response.headers['Access-Control-Allow-Origin'] = '*'
+      self.response.headers['Access-Control-Max-Age'] = 3600
+      self.response.headers['Access-Control-Allow-Methods'] = 'GET, PUT, POST, DELETE, HEAD'
+    else:
+      self.processRequest()
     return
   
   def get(self):
