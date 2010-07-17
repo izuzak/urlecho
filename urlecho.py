@@ -24,9 +24,9 @@ class BaseURLEchoHandler(webapp.RequestHandler):
   def options(self):
     if self.request.headers.has_key('Access-Control-Request-Method'):
       self.response.set_status(200)
-      self.response.headers['Access-Control-Allow-Origin'] = '*'
+      self.response.headers['Access-Control-Allow-Origin'] = self.request.headers['Origin']
       self.response.headers['Access-Control-Max-Age'] = 3600
-      self.response.headers['Access-Control-Allow-Methods'] = 'GET, PUT, POST, DELETE, HEAD'
+      self.response.headers['Access-Control-Allow-Methods'] = self.request.headers['Access-Control-Request-Method']
     else:
       self.processRequest()
     return
