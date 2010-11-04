@@ -113,7 +113,7 @@ Here's the URL for the above ATOM feed GET example, which you can copy and paste
 >     http://urlecho.appspot.com/echo?jsonResponse=%7B%22status%22:200,%22headers%22:%7B%22Content-Type%22:%22application/atom%2Bxml%22%7D,%22content%22:%22%3C%3Fxml%20version%3D'1.0'%20encoding%3D'utf-8'%3F%3E%5Cn%20%20%20%20%20%20%3Cfeed%20xmlns%3D'http://www.w3.org/2005/Atom'%3E%5Cn%20%20%20%20%20%20%20%20%3Ctitle%3EExample%20Feed%3C/title%3E%5Cn%20%20%20%20%20%20%20%20%3Csubtitle%3EA%20subtitle.%3C/subtitle%3E%5Cn%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/feed/'%20rel%3D'self'%20/%3E%5Cn%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/'%20/%3E%5Cn%20%20%20%20%20%20%20%20%3Cid%3Eurn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6%3C/id%3E%5Cn%20%20%20%20%20%20%20%20%3Cupdated%3E2003-12-13T18:30:02Z%3C/updated%3E%5Cn%20%20%20%20%20%20%20%20%3Cauthor%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cname%3EJohn%20Doe%3C/name%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cemail%3Ejohndoe@example.com%3C/email%3E%5Cn%20%20%20%20%20%20%20%20%3C/author%3E%5Cn%20%20%20%20%20%20%20%20%3Centry%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Ctitle%3EAtom-Powered%20Robots%20Run%20Amok%3C/title%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/2003/12/13/atom03'%20/%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cid%3Eurn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a%3C/id%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cupdated%3E2003-12-13T18:30:02Z%3C/updated%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Csummary%3ESome%20text.%3C/summary%3E%5Cn%20%20%20%20%20%20%20%20%3C/entry%3E%3C/feed%3E%22%7D
 
 
-You can also use the simple URL builder form available at: http://izuzak.github.com/urlecho.
+You can also use the simple URL builder form available at: [http://izuzak.github.com/urlecho](http://izuzak.github.com/urlecho).
 
 Advanced
 --------
@@ -122,4 +122,4 @@ Advanced
 
 URL echo URLs are long and ugly since they contain a complete web resource definition (e.g. a web page). Although the URLs are completely functional, sometims it is more practical to have a shorter version. This is a perfect use case for URL shortening services like [bit.ly](http://bit.ly). URL shortening services produce short URLs from long ones and sending a GET request to short URL redirects the request to the long URL.
 
-For example, this is the short bit.ly version of the ATOM feed URL echo example URL: http://bit.ly/bV0So.
+For example, this is the short bit.ly version of the ATOM feed URL echo example URL: [http://bit.ly/bV0So](http://bit.ly/bV0So).
