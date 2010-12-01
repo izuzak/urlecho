@@ -64,6 +64,8 @@ class BaseURLEchoHandler(webapp.RequestHandler):
       debugHeaders.update(self.response.headers)
       if responseParams.has_key('headers'):
         debugHeaders.update(responseParams['headers'])
+      debugHeaders.update( { 'Access-Control-Allow-Origin' : '*' } )
+      self.response.set_status(200)
       self.response.headers['Content-Type'] = 'text'
       self.response.out.write("Request received:\n%s\n\n" % self.request.url)
       self.response.out.write("Status code:\n%s\n\n" % (str(responseParams['status']) if responseParams.has_key('status') else "200"))
