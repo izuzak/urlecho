@@ -111,6 +111,7 @@ URL builder
 -----------
 
 <script type="text/javascript">
+
   String.prototype.trim = function () {
     return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
   };
