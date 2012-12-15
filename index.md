@@ -110,8 +110,8 @@ And here's the URL Echo HTTP response for the above ATOM feed GET example:
 URL builder
 -----------
 
-<script type="text/javascript">
-
+<div>
+  <script type="text/javascript">
   String.prototype.trim = function () {
     return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
   };
@@ -147,7 +147,8 @@ URL builder
     document.getElementById("navigateToURL").innerHTML = "Click the following link to navigate the generated URL:<br><a target=\"_blank\" href=\"" + outputUrl + "\" >" + outputUrlText + "</a>";
     document.getElementById("testingURL").innerHTML = "Click the following link to see the complete HTTP response:<br><a target=\"_blank\" href=\"" + outputTestingUrl + "\" >" + testingUrlText + "</a>";
   }
-</script>
+  </script>
+</div>
 
 <div id="wikicontent"> <p>
 <b><label for="responseStatus">Response status code:</label></b></p><p>
