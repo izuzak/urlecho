@@ -69,7 +69,7 @@ Instead of constructing URLs by hand, use the handy form below.
   }();
 
   function generate() {
-    // _gat._getTracker("UA-20321488-1")._trackPageview('/formclick');
+    _gaq.push(['_trackEvent', 'URL builder', 'createURL'])
 
     var responseStatus = document.getElementById("responseStatus").value;
 
