@@ -30,6 +30,7 @@ The resulting URL should look like this:
     http://urlecho.appspot.com/echo?jsonResponse={{YOUR_URL_ENCODED_JSON}}&debugMode=1
 
 The HTTP response JSON object has 3 properties:
+
   * status - a string representing the HTTP status code of the HTTP response
   * headers - a JSON object representing headers of the HTTP response. Each header is represented as key-value string pair of a header name and header value.
   * content - a string representing the body of the HTTP response
@@ -37,6 +38,7 @@ The HTTP response JSON object has 3 properties:
 All properties are optional, and in the case that any property is omitted - the service will assume default values as defined below.
 
 The service will construct the response the following way:
+
   * The status of the HTTP response will be copied from the `status` parameter. In case that the `status` parameter is not present, the service will default the response status to `200`.
   * Headers defined in the `headers` parameter will be copied to the headers of the service's HTTP response. Headers which are not set may be set arbitrarily by the service. In case that the `headers` parameter is not present, the service will set the `Content-Type` header to "text/html" representing the a plain HTML content type.
   * The body of the HTTP response will be copied from the `content` parameter. In case that the `content` parameter is not present, the service will default the response body to an empty string.
