@@ -1,10 +1,8 @@
 ---
 layout: default
 title: URL Echo
-description: Service for echoing a HTTP response defined in the request
+description: HTTP service for echoing the HTTP response defined in the URL of the request
 github_url: https://github.com/izuzak/urlecho
-author_url: https://github.com/izuzak
-author_name: Ivan zuzak
 ga_tracking: UA-9935885-1
 
 ---
@@ -12,7 +10,9 @@ ga_tracking: UA-9935885-1
 Overview
 --------
 
-URL Echo is a HTTP service for defining the HTTP response to a HTTP request within the request itself. The client sends [JSON-formatted](http://json.org) and [URL-encoded](http://en.wikipedia.org/wiki/Percent-encoding) parameters of the future response (status, headers and body) within the URL of a HTTP request. The service responds with a HTTP response by mirroring the parameters defined in the URL of the request thus echoing the client-defined response.
+URL Echo is an HTTP service for echoing the HTTP response defined in the URL of the request.
+
+The client sends [JSON-formatted](http://json.org) and [URL-encoded](http://en.wikipedia.org/wiki/Percent-encoding) parameters of the future response (status, headers and body) within the URL of a HTTP request. The service responds with a HTTP response by mirroring the parameters defined in the URL of the request thus echoing the client-defined response.
 
 The URL Echo service is implemented and provided as public, open-source and free to use [AppEngine](http://code.google.com/appengine/) service.
 
@@ -31,9 +31,9 @@ The resulting URL should look like this:
 
 The HTTP response JSON object has 3 properties:
 
-  * status - a string representing the HTTP status code of the HTTP response
-  * headers - a JSON object representing headers of the HTTP response. Each header is represented as key-value string pair of a header name and header value.
-  * content - a string representing the body of the HTTP response
+  * `status` - a string representing the HTTP status code of the HTTP response
+  * `headers` - a JSON object representing headers of the HTTP response. Each header is represented as key-value string pair of a header name and header value.
+  * `content` - a string representing the body of the HTTP response
 
 All properties are optional, and in the case that any property is omitted - the service will assume default values as defined below.
 
