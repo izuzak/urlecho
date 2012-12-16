@@ -43,6 +43,89 @@ The service will construct the response the following way:
   * Headers defined in the `headers` parameter will be copied to the headers of the service's HTTP response. Headers which are not set may be set arbitrarily by the service. In case that the `headers` parameter is not present, the service will set the `Content-Type` header to "text/html" representing the a plain HTML content type.
   * The body of the HTTP response will be copied from the `content` parameter. In case that the `content` parameter is not present, the service will default the response body to an empty string.
 
+URL builder
+-----------
+
+Instead of constructing URLs by hand, use the handy form below.
+
+<div>
+  <script type="text/javascript">
+  String.prototype.trim = function () {
+    return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
+  };
+
+  var urlecho = function() {
+
+    function getEchoURL(params) {
+      var urlEncodedJson =  encodeURIComponent(JSON.stringify({"status" : params.status, "headers" : params.headers, "content" : params.content }));
+      var subdomain = (typeof params.subdomain === "undefined" || params.subdomain === null || params.subdomain === "") ? "" : params.subdomain + ".";
+      var outputUrl = "http://" + subdomain + "urlecho.appspot.com/echo?jsonResponse=" + urlEncodedJson;
+      return outputUrl;
+    }
+
+    return {
+      getEchoURL : getEchoURL
+    };
+  }();
+
+  function generate() {
+    // _gat._getTracker("UA-20321488-1")._trackPageview('/formclick');
+
+    var responseStatus = document.getElementById("responseStatus").value;
+
+    var responseHeaders = document.getElementById("responseHeaders").value.split("\n");
+    var responseHeadersObject = {};
+    for (var i=0; i<responseHeaders.length; i++) {
+      var hdr = responseHeaders[i].split(":");
+      responseHeadersObject[hdr[0].trim()] = hdr[1].trim();
+    }
+
+    var responseBody = document.getElementById("responseBody").value;
+
+    var params = {
+      "status" : parseInt(responseStatus),
+      "headers" : responseHeadersObject,
+      "content" : responseBody,
+      "subdomain" : document.getElementById("subdomain").value
+    };
+
+    var outputUrl = urlecho.getEchoURL(params);
+    var outputTestingUrl = outputUrl + "&debugMode=1";
+
+    document.getElementById("outputUrl").value = outputUrl;
+
+    var outputUrlText = outputUrl.length > 60 ? outputUrl.substring(0,57) + "..." : outputUrl;
+    var testingUrlText = outputTestingUrl.length > 60 ? outputTestingUrl.substring(0,57) + "..." : outputTestingUrl;
+    document.getElementById("navigateToURL").innerHTML = "Click the following link to navigate the generated URL:<br><a target=\"_blank\" href=\"" + outputUrl + "\" >" + outputUrlText + "</a>";
+    document.getElementById("testingURL").innerHTML = "Click the following link to see the complete HTTP response:<br><a target=\"_blank\" href=\"" + outputTestingUrl + "\" >" + testingUrlText + "</a>";
+  }
+  </script>
+</div>
+
+<div id="wikicontent"> <p>
+<b><label for="responseStatus">Response status code:</label></b></p><p>
+<input style="width:300px; font-family:monospace" name="responseStatus" id="responseStatus" type="text" value="200"/>
+
+</p><p><label for="responseHeaders"><b>Response headers (one per line)</b>:</label></p><p>
+<textarea id="responseHeaders" name="responseHeaders" style="width:300px" rows="5" cols="20">Content-Type: text/html</textarea>
+
+</p><p><label for="responseBody"><b>Response body</b>:</label></p><p>
+<textarea id="responseBody" name="responseBody" style="width:300px" rows="10" cols="20">Hello world!</textarea>
+
+</p><p><label for="subdomain"><b>Request URL subdomain (optional)</b>:</label></p><p>
+<input style="width:300px; font-family:monospace" name="subdomain" id="subdomain" type="text" value=""/>
+
+</p><p><button style="width:300px" name="genBtn" id="genBtn" onclick="generate();">Generate URL</button>
+
+</p><p><b><label for="outputUrl">Output URL echo URL (select all, then copy):</label></b></p><p>
+<input style="width:300px" name="outputUrl" id="outputUrl" type="text" value="">
+</p>
+<div id="navigateToURL">
+</div><br>
+<div id="testingURL">
+</div>
+</div>
+
 Example
 -------
 
@@ -108,73 +191,6 @@ And here's the URL Echo HTTP response for the above ATOM feed GET example:
         <summary>Some text.</summary>
       </entry>
     </feed>
-
-URL builder
------------
-
-<div>
-  <script type="text/javascript">
-  String.prototype.trim = function () {
-    return this.replace(/^\s*(\S*(\s+\S+)*)\s*$/, "$1");
-  };
-
-  function generate() {
-    // _gat._getTracker("UA-20321488-1")._trackPageview('/formclick');
-
-    var responseStatus = document.getElementById("responseStatus").value;
-
-    var responseHeaders = document.getElementById("responseHeaders").value.split("\n");
-    var responseHeadersObject = {};
-    for (var i=0; i<responseHeaders.length; i++) {
-      var hdr = responseHeaders[i].split(":");
-      responseHeadersObject[hdr[0].trim()] = hdr[1].trim();
-    }
-
-    var responseBody = document.getElementById("responseBody").value;
-
-    var params = {
-      "status" : parseInt(responseStatus),
-      "headers" : responseHeadersObject,
-      "content" : responseBody,
-      "subdomain" : document.getElementById("subdomain").value
-    };
-
-    var outputUrl = urlecho.getEchoURL(params);
-    var outputTestingUrl = outputUrl + "&debugMode=1";
-
-    document.getElementById("outputUrl").value = outputUrl;
-
-    var outputUrlText = outputUrl.length > 60 ? outputUrl.substring(0,57) + "..." : outputUrl;
-    var testingUrlText = outputTestingUrl.length > 60 ? outputTestingUrl.substring(0,57) + "..." : outputTestingUrl;
-    document.getElementById("navigateToURL").innerHTML = "Click the following link to navigate the generated URL:<br><a target=\"_blank\" href=\"" + outputUrl + "\" >" + outputUrlText + "</a>";
-    document.getElementById("testingURL").innerHTML = "Click the following link to see the complete HTTP response:<br><a target=\"_blank\" href=\"" + outputTestingUrl + "\" >" + testingUrlText + "</a>";
-  }
-  </script>
-</div>
-
-<div id="wikicontent"> <p>
-<b><label for="responseStatus">Response status code:</label></b></p><p>
-<input style="width:300px; font-family:monospace" name="responseStatus" id="responseStatus" type="text" value="200"/>
-
-</p><p><label for="responseHeaders"><b>Response headers (one per line)</b>:</label></p><p>
-<textarea id="responseHeaders" name="responseHeaders" style="width:300px" rows="5" cols="20">Content-Type: text/html</textarea>
-
-</p><p><label for="responseBody"><b>Response body</b>:</label></p><p>
-<textarea id="responseBody" name="responseBody" style="width:300px" rows="10" cols="20">Hello world!</textarea>
-
-</p><p><label for="subdomain"><b>Request URL subdomain (optional)</b>:</label></p><p>
-<input style="width:300px; font-family:monospace" name="subdomain" id="subdomain" type="text" value=""/>
-
-</p><p><button style="width:300px" name="genBtn" id="genBtn" onclick="generate();">Generate URL</button>
-
-</p><p><b><label for="outputUrl">Output URL echo URL (select all, then copy):</label></b></p><p>
-<input style="width:300px" name="outputUrl" id="outputUrl" type="text" value="">
-</p>
-<div id="navigateToURL">
-</div><br>
-<div id="testingURL">
-</div>
-</div>
 
 Purpose
 -------
