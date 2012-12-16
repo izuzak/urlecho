@@ -5,14 +5,14 @@ description: Service for echoing a HTTP response defined in the request
 github_url: https://github.com/izuzak/urlecho
 author_url: https://github.com/izuzak
 author_name: Ivan zuzak
-ga_tracking: UA-20321488-1
+ga_tracking: UA-9935885-1
 
 ---
 
 Overview
 --------
 
-URL Echo is a HTTP service for defining the HTTP response to a HTTP request within the request itself. The client sends [JSON-formatted](http://json.org) and[URL-encoded](http://en.wikipedia.org/wiki/Percent-encoding) parameters of the future response (status, headers and body) within the URL of a HTTP request. The service responds with a HTTP response by mirroring the parameters defined in the URL of the request thus echoing the client-defined response.
+URL Echo is a HTTP service for defining the HTTP response to a HTTP request within the request itself. The client sends [JSON-formatted](http://json.org) and [URL-encoded](http://en.wikipedia.org/wiki/Percent-encoding) parameters of the future response (status, headers and body) within the URL of a HTTP request. The service responds with a HTTP response by mirroring the parameters defined in the URL of the request thus echoing the client-defined response.
 
 The URL Echo service is implemented and provided as public, open-source and free to use [AppEngine](http://code.google.com/appengine/) service.
 
