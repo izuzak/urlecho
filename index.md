@@ -27,7 +27,7 @@ The service also supports a debug mode in which the response will be send as the
 
 The resulting URL should look like this:
 
-    http://urlecho.appspot.com/echo?jsonResponse={{YOUR_URL_ENCODED_JSON}}&debugMode=1
+    http://urlecho.appspot.com/echo?jsonResponse=YOUR_URL_ENCODED_JSON&debugMode=1
 
 The HTTP response JSON object has 3 properties:
 
