@@ -45,16 +45,16 @@ Instead of constructing URLs by hand, use the handy form below.
       var subdomain = (typeof params.subdomain === "undefined" || params.subdomain === null || params.subdomain === "") ? "" : params.subdomain + ".";
       var outputUrl = "http://" + subdomain + "urlecho.appspot.com/echo?";
 
-      requrl += "status=" + params.status;
+      outputUrl += "status=" + params.status;
 
       if (params.headers) {
         for (var key in params.headers) {
-          requrl += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(params.headers[key]);
+          outputUrl += "&" + encodeURIComponent(key) + "=" + encodeURIComponent(params.headers[key]);
         }
       }
 
       if (params.body) {
-        requrl += "&body=" + encodeURIComponent(params.body);
+        outputUrl += "&body=" + encodeURIComponent(params.body);
       }
 
       return outputUrl;
