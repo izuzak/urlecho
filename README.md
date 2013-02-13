@@ -3,7 +3,7 @@ Overview
 
 URL Echo is an HTTP service for echoing the HTTP response defined in the URL of the request.
 
-The client sends [JSON-formatted](http://json.org) and [URL-encoded](http://en.wikipedia.org/wiki/Percent-encoding) parameters of the future response (status, headers and body) within the URL of a HTTP request. The service responds with a HTTP response by mirroring the parameters defined in the URL of the request thus echoing the client-defined response.
+The service expects a definition of a HTTP response message in the URL of a request to the service. The service responds with a HTTP response by mirroring the parameters defined in the URL of the request thus echoing the client-defined response.
 
 The URL Echo service is implemented and provided as public, open-source and free to use [AppEngine](http://code.google.com/appengine/) service.
 
@@ -12,64 +12,19 @@ Service API
 
 The service is available at this URL: `http://urlecho.appspot.com/echo`.
 
-To use the service, build an URL-encoded JSON-formatted string representing the HTTP response (as defined below), and pass it as an URL query parameter named `jsonResponse`.
+The API defines how a HTTP response should be encoded in the service request URLs. Elements of a HTTP response are encoded as URL query parameters:
 
-The service also supports a debug mode in which the response will be send as the body in text/plain. To specify debug mode, add this query parameter to the end of the request URL: `debugMode=1`.
-
-The resulting URL should look like this:
-
-    http://urlecho.appspot.com/echo?jsonResponse={{YOUR_URL_ENCODED_JSON}}&debugMode=1
-
-The HTTP response JSON object has 3 properties:
-  * status - a string representing the HTTP status code of the HTTP response
-  * headers - a JSON object representing headers of the HTTP response. Each header is represented as key-value string pair of a header name and header value.
-  * content - a string representing the body of the HTTP response
-
-All properties are optional, and in the case that any property is omitted - the service will assume default values as defined below.
-
-The service will construct the response the following way:
-  * The status of the HTTP response will be copied from the `status` parameter. In case that the `status` parameter is not present, the service will default the response status to `200`.
-  * Headers defined in the `headers` parameter will be copied to the headers of the service's HTTP response. Headers which are not set may be set arbitrarily by the service. In case that the `headers` parameter is not present, the service will set the `Content-Type` header to "text/html" representing the a plain HTML content type.
-  * The body of the HTTP response will be copied from the `content` parameter. In case that the `content` parameter is not present, the service will default the response body to an empty string.
+  * (optional) HTTP status - `status` parameter; a number representing the HTTP status code of the HTTP response (e.g. `status=200`). Default value: `200`.
+  * (optional, multiple) HTTP headers - multiple query parameters specified as `headerName=headerValue` (e.g. `Content-Type=text/plain`). Default values: `Content-Type=text/plain`
+  * (optional) HTTP body - `body` parameter; a string representing the body of the HTTP response (e.g. `body=HelloWorld`).
+  * (optional) debug mode - `debugMode` parameter; specifies debug mode in which the response is sent as the body in text/plain (e.g. `debugMode=1`)
 
 Example
 -------
 
-Here's an example JSON object that defines a HTTP response containing an ATOM feed in the response body:
+Here's an example URL Echo request that defines a HTTP response containing an ATOM feed in the response body:
 
-    {
-      "status" : "200",
-      "headers" : { "Content-Type" : "application/atom+xml" }
-      "content" : "
-        <?xml version='1.0' encoding='utf-8'?>
-          <feed xmlns='http://www.w3.org/2005/Atom'>
-            <title>Example Feed</title>
-            <subtitle>A subtitle.</subtitle>
-            <link href='http://example.org/feed/' rel='self' />
-            <link href='http://example.org/' />
-            <id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>
-            <updated>2003-12-13T18:30:02Z</updated>
-            <author>
-              <name>John Doe</name>
-              <email>johndoe@example.com</email>
-            </author>
-            <entry>
-              <title>Atom-Powered Robots Run Amok</title>
-              <link href='http://example.org/2003/12/13/atom03' />
-              <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
-              <updated>2003-12-13T18:30:02Z</updated>
-              <summary>Some text.</summary>
-            </entry>
-          </feed>"
-    }
-
-And this is the URL-encoded string for the same JSON-formatted object:
-
-    %7B%22status%22:200,%22headers%22:%7B%22Content-Type%22:%22application/atom%2Bxml%22%7D,%22content%22:%22%3C%3Fxml%20version%3D'1.0'%20encoding%3D'utf-8'%3F%3E%5Cn%20%20%20%20%20%20%3Cfeed%20xmlns%3D'http://www.w3.org/2005/Atom'%3E%5Cn%20%20%20%20%20%20%20%20%3Ctitle%3EExample%20Feed%3C/title%3E%5Cn%20%20%20%20%20%20%20%20%3Csubtitle%3EA%20subtitle.%3C/subtitle%3E%5Cn%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/feed/'%20rel%3D'self'%20/%3E%5Cn%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/'%20/%3E%5Cn%20%20%20%20%20%20%20%20%3Cid%3Eurn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6%3C/id%3E%5Cn%20%20%20%20%20%20%20%20%3Cupdated%3E2003-12-13T18:30:02Z%3C/updated%3E%5Cn%20%20%20%20%20%20%20%20%3Cauthor%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cname%3EJohn%20Doe%3C/name%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cemail%3Ejohndoe@example.com%3C/email%3E%5Cn%20%20%20%20%20%20%20%20%3C/author%3E%5Cn%20%20%20%20%20%20%20%20%3Centry%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Ctitle%3EAtom-Powered%20Robots%20Run%20Amok%3C/title%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/2003/12/13/atom03'%20/%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cid%3Eurn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a%3C/id%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cupdated%3E2003-12-13T18:30:02Z%3C/updated%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Csummary%3ESome%20text.%3C/summary%3E%5Cn%20%20%20%20%20%20%20%20%3C/entry%3E%3C/feed%3E%22%7D`
-
-Here's the complete URL for the above ATOM feed GET example, which you can copy and paste into a new tab to see it work:
-
-    http://urlecho.appspot.com/echo?jsonResponse=%7B%22status%22:200,%22headers%22:%7B%22Content-Type%22:%22application/atom%2Bxml%22%7D,%22content%22:%22%3C%3Fxml%20version%3D'1.0'%20encoding%3D'utf-8'%3F%3E%5Cn%20%20%20%20%20%20%3Cfeed%20xmlns%3D'http://www.w3.org/2005/Atom'%3E%5Cn%20%20%20%20%20%20%20%20%3Ctitle%3EExample%20Feed%3C/title%3E%5Cn%20%20%20%20%20%20%20%20%3Csubtitle%3EA%20subtitle.%3C/subtitle%3E%5Cn%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/feed/'%20rel%3D'self'%20/%3E%5Cn%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/'%20/%3E%5Cn%20%20%20%20%20%20%20%20%3Cid%3Eurn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6%3C/id%3E%5Cn%20%20%20%20%20%20%20%20%3Cupdated%3E2003-12-13T18:30:02Z%3C/updated%3E%5Cn%20%20%20%20%20%20%20%20%3Cauthor%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cname%3EJohn%20Doe%3C/name%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cemail%3Ejohndoe@example.com%3C/email%3E%5Cn%20%20%20%20%20%20%20%20%3C/author%3E%5Cn%20%20%20%20%20%20%20%20%3Centry%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Ctitle%3EAtom-Powered%20Robots%20Run%20Amok%3C/title%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Clink%20href%3D'http://example.org/2003/12/13/atom03'%20/%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cid%3Eurn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a%3C/id%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Cupdated%3E2003-12-13T18:30:02Z%3C/updated%3E%5Cn%20%20%20%20%20%20%20%20%20%20%3Csummary%3ESome%20text.%3C/summary%3E%5Cn%20%20%20%20%20%20%20%20%3C/entry%3E%3C/feed%3E%22%7D
+    http://urlecho.appspot.com/echo?status=200&body=<?xml%20version='1.0'%20encoding='utf-8'?>%20<feed%20xmlns='http://www.w3.org/2005/Atom'>%20<title>Example%20Feed</title>%20<subtitle>A%20subtitle.</subtitle>%20<link%20href='http://example.org/feed/'%20rel='self'%20/>%20<link%20href='http://example.org/'%20/>%20<id>urn:uuid:60a76c80-d399-11d9-b91C-0003939e0af6</id>%20<updated>2003-12-13T18:30:02Z</updated>%20<author>%20<name>John%20Doe</name>%20<email>johndoe@example.com</email>%20</author>%20<entry>%20<title>Atom-Powered%20Robots%20Run%20Amok</title>%20<link%20href='http://example.org/2003/12/13/atom03'%20/>%20<id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>%20<updated>2003-12-13T18:30:02Z</updated>%20<summary>Some%20text.</summary>%20</entry>%20</feed>&Content-Type=application/atom+xml
 
 And here's the URL Echo HTTP response for the above ATOM feed GET example:
 
