@@ -85,3 +85,5 @@ License
 -------
 
 Licensed under the [Apache 2.0 License](https://github.com/izuzak/urlecho/blob/master/LICENSE).
+
+[![gaugestracking alpha](https://secure.gaug.es/track.gif?h[site_id]=5162c24ff5a1f52219000094&h[resource]=http%3A%2F%2Fgithub.com%2Fizuzak%2Furlecho&h[title]=urlecho%20%28GitHub%29&h[unique]=1&h[unique_hour]=1&h[unique_day]=1&h[unique_month]=1&h[unique_year]=1 "ivanzuzak.info")](http://ivanzuzak.info/)
