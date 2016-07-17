@@ -73,8 +73,12 @@ Instead of constructing URLs by hand, use the handy form below.
     var responseHeaders = document.getElementById("responseHeaders").value.split("\n");
     var responseHeadersObject = {};
     for (var i=0; i<responseHeaders.length; i++) {
-      var hdr = responseHeaders[i].split(":");
-      responseHeadersObject[hdr[0].trim()] = hdr[1].trim();
+      var responseHeader = responseHeaders[i];
+      var firstColon = responseHeader.indexOf(":");
+      if (firstColon > -1) {
+        responseHeadersObject[responseHeader.substring(0, firstColon).trim()] =
+          responseHeader.substring(firstColon + 1).trim();
+      }
     }
 
     var responseBody = document.getElementById("responseBody").value;
