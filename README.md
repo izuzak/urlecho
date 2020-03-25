@@ -72,7 +72,7 @@ Advanced
 
 ### URL shortening ###
 
-URL Echo URLs are long and ugly since they contain a complete web resource definition (e.g. a web page). Although the URLs are completely functional, sometims it is more practical to have a shorter version. This is a perfect use case for URL shortening services like [bit.ly](http://bit.ly). URL shortening services produce short URLs from long ones and sending a HTTP request to short URL redirects the request to the long URL.
+URL Echo URLs are long and ugly since they contain a complete web resource definition (e.g. a web page). Although the URLs are completely functional, sometimes it is more practical to have a shorter version. This is a perfect use case for URL shortening services like [bit.ly](http://bit.ly). URL shortening services produce short URLs from long ones and sending a HTTP request to short URL redirects the request to the long URL.
 
 For example, this is the short bit.ly version of the ATOM feed URL echo example URL: [http://bit.ly/bV0So](http://bit.ly/bV0So).
 
